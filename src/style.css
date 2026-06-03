@@ -1,0 +1,141 @@
+:root {
+  --mh-green: #5b8c7a;
+  --mh-green-light: #6fa08d;
+  --mh-teal: #3d9b8f;
+  --mh-bg: #f5f7fa;
+  --mh-text: #303133;
+  --mh-text-secondary: #606266;
+  --mh-primary: #409eff;
+  --mh-mint: #e8f5f2;
+  --mh-register-bg: #f0f7f4;
+
+  --scrollbar-size: 8px;
+  --scrollbar-track: #eef2f6;
+  --scrollbar-thumb: #b8c9d6;
+  --scrollbar-thumb-hover: #8fadc4;
+  --scrollbar-thumb-active: #6b94b0;
+}
+
+* {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+*::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #c5d5e0 0%, var(--scrollbar-thumb) 100%);
+  border-radius: 999px;
+  border: 2px solid var(--scrollbar-track);
+  background-clip: padding-box;
+  min-height: 40px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #a8c0d0 0%, var(--scrollbar-thumb-hover) 100%);
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background: var(--scrollbar-thumb-active);
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  min-height: 100%;
+  font-family:
+    'PingFang SC',
+    'Microsoft YaHei',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  color: var(--mh-text);
+  background: var(--mh-bg);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 48px;
+}
+
+.page-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2d3d;
+}
+
+.page-subtitle {
+  margin: 0 0 28px;
+  font-size: 14px;
+  color: var(--mh-text-secondary);
+}
+
+.link-primary {
+  color: var(--mh-primary);
+  cursor: pointer;
+}
+
+.link-primary:hover {
+  opacity: 0.85;
+}
+
+.card-panel {
+  border-radius: 12px;
+  border: none;
+}
+
+.card-panel .el-card__body {
+  padding: 24px;
+}
+
+/* Element Plus 内置滚动条 */
+.el-scrollbar__bar.is-vertical {
+  width: var(--scrollbar-size);
+  right: 2px;
+}
+
+.el-scrollbar__bar.is-horizontal {
+  height: var(--scrollbar-size);
+  bottom: 2px;
+}
+
+.el-scrollbar__thumb {
+  background: linear-gradient(180deg, #c5d5e0 0%, var(--scrollbar-thumb) 100%) !important;
+  border-radius: 999px !important;
+  opacity: 1 !important;
+}
+
+.el-scrollbar__thumb:hover {
+  background: linear-gradient(180deg, #a8c0d0 0%, var(--scrollbar-thumb-hover) 100%) !important;
+}
+
+.el-table__body-wrapper::-webkit-scrollbar,
+.el-textarea__inner::-webkit-scrollbar,
+.el-dialog__body::-webkit-scrollbar {
+  width: var(--scrollbar-size);
+  height: var(--scrollbar-size);
+}
