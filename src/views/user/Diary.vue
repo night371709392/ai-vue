@@ -7,6 +7,39 @@ import { addEmotionDiary } from '@/api/frontend'
 
 const STORAGE_KEY = 'emotion_diary_records'
 
+const carouselImages = [
+  {
+    url: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&h=400&fit=crop',
+    alt: '冥想日落',
+    caption: '静下心来，感受呼吸',
+    photographer: 'Unsplash',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop',
+    alt: '森林阳光',
+    caption: '每一缕阳光都在拥抱你',
+    photographer: 'Unsplash',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&h=400&fit=crop',
+    alt: '自然冥想',
+    caption: '与自然对话，与自己和解',
+    photographer: 'Unsplash',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=800&h=400&fit=crop',
+    alt: '山顶远眺',
+    caption: '登高望远，豁然开朗',
+    photographer: 'Unsplash',
+  },
+  {
+    url: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=400&fit=crop',
+    alt: '宁静海滩',
+    caption: '像大海一样包容自己',
+    photographer: 'Unsplash',
+  },
+]
+
 const sleepQualityLabels = ['很差', '较差', '一般', '较好', '很好']
 const stressLevelLabels = ['很低', '较低', '中等', '较高', '很高']
 
@@ -340,6 +373,29 @@ onMounted(() => {
               <span class="list-empty-icon">📝</span>
               <span>还没有记录，开始写第一篇吧</span>
             </div>
+          </div>
+
+          <div class="carousel-panel">
+            <h2 class="carousel-panel-title">
+              <span class="carousel-title-icon">🖼️</span>
+              每日心灵图鉴
+            </h2>
+            <el-carousel
+              :interval="5000"
+              type="card"
+              height="240px"
+              indicator-position="outside"
+              arrow="hover"
+              class="mind-carousel"
+            >
+              <el-carousel-item v-for="(img, idx) in carouselImages" :key="idx">
+                <div class="carousel-img-wrapper">
+                  <img :src="img.url" :alt="img.alt" class="carousel-img" loading="lazy" />
+                  <div class="carousel-caption">{{ img.caption }}</div>
+                </div>
+              </el-carousel-item>
+            </el-carousel>
+            <p class="carousel-footer">图片来源于 Unsplash，仅供心理健康公益使用</p>
           </div>
         </el-col>
       </el-row>
@@ -682,6 +738,102 @@ onMounted(() => {
   font-size: 28px;
 }
 
+/* ===== 心灵图鉴轮播 ===== */
+.carousel-panel {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.carousel-panel-title {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1f2d3d;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.carousel-title-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.carousel-footer {
+  margin: 12px 0 0;
+  font-size: 11px;
+  color: #c0c4cc;
+  text-align: center;
+}
+
+.mind-carousel {
+  margin-top: 12px;
+}
+
+.carousel-img-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.carousel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.carousel-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px 16px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.55));
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Element Plus 轮播指示器微调 */
+.mind-carousel :deep(.el-carousel__indicator) {
+  padding: 4px 0;
+}
+
+.mind-carousel :deep(.el-carousel__indicator .el-carousel__button) {
+  width: 24px;
+  height: 3px;
+  border-radius: 3px;
+  opacity: 0.3;
+  background-color: #3d9b8f;
+}
+
+.mind-carousel :deep(.el-carousel__indicator.is-active .el-carousel__button) {
+  opacity: 1;
+  background-color: #3d9b8f;
+}
+
+.mind-carousel :deep(.el-carousel__arrow) {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s;
+}
+
+.mind-carousel :deep(.el-carousel__arrow:hover) {
+  background-color: #fff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
 /* ===== 响应式 ===== */
 @media (max-width: 991px) {
   .diary-main {
@@ -694,6 +846,14 @@ onMounted(() => {
 
   .form-panel {
     padding: 20px 20px;
+  }
+
+  .carousel-panel {
+    padding: 18px 16px;
+  }
+
+  .mind-carousel {
+    height: 200px !important;
   }
 
   .mood-score-area {
@@ -713,6 +873,20 @@ onMounted(() => {
   .form-panel {
     padding: 16px 14px;
     border-radius: 12px;
+  }
+
+  .carousel-panel {
+    padding: 14px 10px;
+    border-radius: 12px;
+  }
+
+  .mind-carousel {
+    height: 180px !important;
+  }
+
+  .carousel-caption {
+    font-size: 13px;
+    padding: 10px 12px;
   }
 
   .mood-score-emoji {

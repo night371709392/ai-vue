@@ -5,9 +5,16 @@ import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores/user'
 import UserNavbar from '@/components/UserNavbar.vue'
 import { getKnowledgeList } from '@/api/frontend'
+import { useDarkMode } from '@/composables/useDarkMode'
 
 const router = useRouter()
 const userStore = useUserStore()
+
+/* ===== 黑夜模式 + 粒子特效 ===== */
+const canvasRef = ref(null)
+const { isDarkMode, toggleDarkMode, handlePageClick } = useDarkMode(canvasRef)
+
+/* ===== 文章列表 ===== */
 
 const list = ref([])
 const loading = ref(false)
@@ -69,12 +76,28 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="knowledge-page">
+  <div class="knowledge-page" :class="{ 'dark-mode': isDarkMode }" @click="handlePageClick">
+    <!-- 黑夜模式星空画布 -->
+    <canvas
+      v-if="isDarkMode"
+      ref="canvasRef"
+      class="star-canvas"
+    ></canvas>
     <UserNavbar />
     <main class="knowledge-main">
       <div class="knowledge-hero">
-        <h1 class="knowledge-hero-title">知识库</h1>
-        <p class="knowledge-hero-sub">{{ subtitle }}</p>
+        <div class="knowledge-hero-left">
+          <h1 class="knowledge-hero-title">知识库</h1>
+          <p class="knowledge-hero-sub">{{ subtitle }}</p>
+        </div>
+        <button
+          class="dark-toggle-btn"
+          :title="isDarkMode ? '切换到白天模式' : '切换到黑夜模式'"
+          @click="toggleDarkMode"
+        >
+          <span class="toggle-icon">{{ isDarkMode ? '☀️' : '🌙' }}</span>
+          <span class="toggle-label">{{ isDarkMode ? '白天' : '夜间' }}</span>
+        </button>
       </div>
 
       <div v-loading="loading" class="knowledge-grid-area">
@@ -134,6 +157,15 @@ onMounted(() => {
 
 .knowledge-hero {
   margin-bottom: 28px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.knowledge-hero-left {
+  flex: 1;
+  min-width: 0;
 }
 
 .knowledge-hero-title {
@@ -147,6 +179,44 @@ onMounted(() => {
   margin: 0;
   font-size: 14px;
   color: #909399;
+}
+
+/* ===== 模式切换按钮 ===== */
+.dark-toggle-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 24px;
+  border: 1px solid #e4e7ed;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  color: #606266;
+  transition: all 0.3s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  white-space: nowrap;
+}
+
+.dark-toggle-btn:hover {
+  border-color: #3d9b8f;
+  color: #3d9b8f;
+  box-shadow: 0 4px 14px rgba(61, 155, 143, 0.15);
+  transform: translateY(-1px);
+}
+
+.dark-toggle-btn:active {
+  transform: translateY(0);
+}
+
+.toggle-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.toggle-label {
+  font-weight: 500;
 }
 
 .knowledge-grid-area {
@@ -281,6 +351,166 @@ onMounted(() => {
   border-radius: 8px;
 }
 
+/* ===== 星空画布 ===== */
+.star-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ===== 黑夜模式 ===== */
+.dark-mode {
+  background: #0b0f1a;
+}
+
+/* 黑夜模式内容层级（高于画布） */
+.dark-mode .user-navbar,
+.dark-mode .knowledge-main {
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== 黑夜 - 导航栏 ===== */
+.dark-mode :deep(.user-navbar) {
+  background: rgba(18, 22, 36, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.dark-mode :deep(.brand-text) {
+  color: #e8ecf2;
+}
+
+.dark-mode :deep(.nav-item) {
+  color: #a0aab4;
+}
+
+.dark-mode :deep(.nav-item:hover),
+.dark-mode :deep(.nav-item.active) {
+  color: #5cadff;
+}
+
+.dark-mode :deep(.logout-btn) {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #c0c8d0;
+}
+
+.dark-mode :deep(.logout-btn:hover) {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #e8ecf2;
+}
+
+/* ===== 黑夜 - 标题区 ===== */
+.dark-mode .knowledge-hero-title {
+  color: #e8ecf2;
+}
+
+.dark-mode .knowledge-hero-sub {
+  color: #8896a6;
+}
+
+/* 黑夜 - 切换按钮 */
+.dark-mode .dark-toggle-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #c0c8d0;
+}
+
+.dark-mode .dark-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #5cadff;
+  color: #5cadff;
+  box-shadow: 0 4px 18px rgba(92, 173, 255, 0.2);
+}
+
+/* ===== 黑夜 - 文章卡片 ===== */
+.dark-mode .article-card {
+  background: rgba(24, 30, 48, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.dark-mode .article-card:hover {
+  background: rgba(30, 38, 58, 0.92);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(92, 173, 255, 0.2);
+  transform: translateY(-3px);
+}
+
+.dark-mode .article-tag {
+  color: #5cadff;
+  background: rgba(92, 173, 255, 0.12);
+}
+
+.dark-mode .article-title {
+  color: #e0e6f0;
+}
+
+.dark-mode .article-summary {
+  color: #8896a6;
+}
+
+.dark-mode .article-card-footer {
+  border-top-color: rgba(255, 255, 255, 0.06);
+}
+
+.dark-mode .article-date {
+  color: #6b7a8d;
+}
+
+.dark-mode .article-read-link {
+  color: #5cadff;
+}
+
+.dark-mode .article-card:hover .article-read-link {
+  color: #7cc0ff;
+}
+
+.dark-mode .article-reads {
+  color: #6b7a8d;
+}
+
+/* ===== 黑夜 - 空状态 ===== */
+.dark-mode .empty-state {
+  color: #6b7a8d;
+}
+
+/* ===== 黑夜 - 分页 ===== */
+.dark-mode .pagination-area :deep(.el-pager li) {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #c0c8d0;
+}
+
+.dark-mode .pagination-area :deep(.el-pager li:hover) {
+  color: #5cadff;
+}
+
+.dark-mode .pagination-area :deep(.el-pager li.is-active) {
+  background: linear-gradient(135deg, #3d9b8f 0%, #5cadff 100%) !important;
+  color: #fff;
+}
+
+.dark-mode .pagination-area :deep(.btn-prev),
+.dark-mode .pagination-area :deep(.btn-next) {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #c0c8d0;
+}
+
+.dark-mode .pagination-area :deep(.btn-prev:hover),
+.dark-mode .pagination-area :deep(.btn-next:hover) {
+  color: #5cadff;
+}
+
+/* ===== 黑夜 - loading ===== */
+.dark-mode :deep(.el-loading-mask) {
+  background-color: rgba(11, 15, 26, 0.6);
+}
+
 /* ===== 响应式 ===== */
 @media (max-width: 991px) {
   .knowledge-main {
@@ -290,11 +520,33 @@ onMounted(() => {
   .knowledge-hero-title {
     font-size: 22px;
   }
+
+  .knowledge-hero {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .dark-toggle-btn {
+    align-self: flex-start;
+  }
 }
 
 @media (max-width: 640px) {
   .knowledge-hero-title {
     font-size: 20px;
+  }
+
+  .knowledge-hero {
+    gap: 10px;
+  }
+
+  .dark-toggle-btn {
+    padding: 6px 14px;
+    font-size: 13px;
+  }
+
+  .toggle-icon {
+    font-size: 16px;
   }
 
   .article-card {

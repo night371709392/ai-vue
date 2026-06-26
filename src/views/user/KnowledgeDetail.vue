@@ -5,9 +5,23 @@ import { ElMessage } from 'element-plus'
 import UserNavbar from '@/components/UserNavbar.vue'
 import { getKnowledgeDetail } from '@/api/frontend'
 import { articleCache } from '@/stores/articleCache'
+import { useDarkMode } from '@/composables/useDarkMode'
 
 const route = useRoute()
 const router = useRouter()
+
+/* ===== 黑夜模式 + 粒子特效 ===== */
+const canvasRef = ref(null)
+const { isDarkMode, toggleDarkMode, handlePageClick } = useDarkMode(canvasRef, {
+  clickExcludeSelectors: [
+    '.dark-toggle-btn',
+    '.el-button',
+    '.back-btn',
+    '.user-navbar',
+    'a',
+    'button',
+  ],
+})
 
 const article = ref(null)
 const loading = ref(false)
@@ -79,7 +93,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="detail-page">
+  <div class="detail-page" :class="{ 'dark-mode': isDarkMode }" @click="handlePageClick">
+    <!-- 黑夜模式星空画布 -->
+    <canvas
+      v-if="isDarkMode"
+      ref="canvasRef"
+      class="star-canvas"
+    ></canvas>
     <UserNavbar />
     <main class="detail-main">
       <div class="back-row">
@@ -87,6 +107,14 @@ onMounted(() => {
           <svg class="back-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
           返回知识库
         </el-button>
+        <button
+          class="dark-toggle-btn"
+          :title="isDarkMode ? '切换到白天模式' : '切换到黑夜模式'"
+          @click="toggleDarkMode"
+        >
+          <span class="toggle-icon">{{ isDarkMode ? '☀️' : '🌙' }}</span>
+          <span class="toggle-label">{{ isDarkMode ? '白天' : '夜间' }}</span>
+        </button>
       </div>
 
       <div v-if="loading && !article" v-loading="true" class="loading-state"></div>
@@ -149,6 +177,10 @@ onMounted(() => {
 
 .back-row {
   margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .back-btn {
@@ -165,6 +197,44 @@ onMounted(() => {
 .back-icon {
   margin-right: 4px;
   flex-shrink: 0;
+}
+
+/* ===== 模式切换按钮 ===== */
+.dark-toggle-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 24px;
+  border: 1px solid #e4e7ed;
+  background: #fff;
+  cursor: pointer;
+  font-size: 13px;
+  color: #606266;
+  transition: all 0.3s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  white-space: nowrap;
+}
+
+.dark-toggle-btn:hover {
+  border-color: #3d9b8f;
+  color: #3d9b8f;
+  box-shadow: 0 4px 14px rgba(61, 155, 143, 0.15);
+  transform: translateY(-1px);
+}
+
+.dark-toggle-btn:active {
+  transform: translateY(0);
+}
+
+.toggle-icon {
+  font-size: 17px;
+  line-height: 1;
+}
+
+.toggle-label {
+  font-weight: 500;
 }
 
 .loading-state {
@@ -297,8 +367,154 @@ onMounted(() => {
   margin-top: 8px;
 }
 
+/* ===== 星空画布 ===== */
+.star-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ===== 黑夜模式 ===== */
+.dark-mode {
+  background: #0b0f1a;
+}
+
+.dark-mode .user-navbar,
+.dark-mode .detail-main {
+  position: relative;
+  z-index: 1;
+}
+
+/* 黑夜 - 导航栏 */
+.dark-mode :deep(.user-navbar) {
+  background: rgba(18, 22, 36, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.dark-mode :deep(.brand-text) {
+  color: #e8ecf2;
+}
+
+.dark-mode :deep(.nav-item) {
+  color: #a0aab4;
+}
+
+.dark-mode :deep(.nav-item:hover),
+.dark-mode :deep(.nav-item.active) {
+  color: #5cadff;
+}
+
+.dark-mode :deep(.logout-btn) {
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #c0c8d0;
+}
+
+.dark-mode :deep(.logout-btn:hover) {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #e8ecf2;
+}
+
+/* 黑夜 - 返回按钮 */
+.dark-mode .back-btn {
+  color: #8896a6;
+}
+
+.dark-mode .back-btn:hover {
+  color: #5cadff;
+}
+
+/* 黑夜 - 切换按钮 */
+.dark-mode .dark-toggle-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #c0c8d0;
+}
+
+.dark-mode .dark-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #5cadff;
+  color: #5cadff;
+  box-shadow: 0 4px 18px rgba(92, 173, 255, 0.2);
+}
+
+/* 黑夜 - 文章元信息 */
+.dark-mode .article-tag {
+  color: #5cadff;
+  background: rgba(92, 173, 255, 0.12);
+}
+
+.dark-mode .article-reads {
+  color: #6b7a8d;
+}
+
+/* 黑夜 - 标题 */
+.dark-mode .detail-title {
+  color: #e0e6f0;
+}
+
+/* 黑夜 - 作者行 */
+.dark-mode .article-byline {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.dark-mode .byline-author,
+.dark-mode .byline-date {
+  color: #8896a6;
+}
+
+.dark-mode .byline-divider {
+  color: #5a6478;
+}
+
+/* 黑夜 - 摘要卡片 */
+.dark-mode .article-summary-box {
+  background: rgba(24, 30, 48, 0.7);
+  border-left-color: #5cadff;
+}
+
+.dark-mode .summary-label {
+  color: #5cadff;
+}
+
+.dark-mode .summary-text {
+  color: #b0b8c4;
+}
+
+/* 黑夜 - 正文 */
+.dark-mode .paragraph {
+  color: #c8d0da;
+}
+
+/* 黑夜 - 空状态 */
+.dark-mode .not-found {
+  color: #6b7a8d;
+}
+
+/* 黑夜 - loading */
+.dark-mode :deep(.el-loading-mask) {
+  background-color: rgba(11, 15, 26, 0.6);
+}
+
 /* ===== 响应式 ===== */
 @media (max-width: 640px) {
+  .back-row {
+    gap: 10px;
+  }
+
+  .dark-toggle-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .toggle-icon {
+    font-size: 15px;
+  }
   .detail-main {
     padding: 16px 18px 40px;
   }
