@@ -1,13 +1,20 @@
 :root {
-  --mh-green: #5b8c7a;
-  --mh-green-light: #6fa08d;
-  --mh-teal: #3d9b8f;
+  /* 主色·薄荷青 — 草木湖水，舒缓焦虑 */
+  --mh-green: #8FD8C8;
+  --mh-green-light: #A8D4E8;
+  --mh-teal: #6FB8AB;
   --mh-bg: #f5f7fa;
   --mh-text: #303133;
   --mh-text-secondary: #606266;
-  --mh-primary: #409eff;
-  --mh-mint: #e8f5f2;
+  --mh-primary: #8FD8C8;
+  --mh-mint: #EEF8F5;
   --mh-register-bg: #f0f7f4;
+
+  /* 辅助色 */
+  --mh-blue: #A8D4E8;
+  --mh-lavender: #D8C8E8;
+  --mh-success: #94D4B7;
+  --mh-warning: #F8C9A9;
 
   --scrollbar-size: 8px;
   --scrollbar-track: #eef2f6;

@@ -200,9 +200,9 @@ onMounted(() => {
 }
 
 .dark-toggle-btn:hover {
-  border-color: #3d9b8f;
-  color: #3d9b8f;
-  box-shadow: 0 4px 14px rgba(61, 155, 143, 0.15);
+  border-color: #6FB8AB;
+  color: #6FB8AB;
+  box-shadow: 0 4px 14px rgba(111, 184, 171, 0.15);
   transform: translateY(-1px);
 }
 
@@ -253,8 +253,8 @@ onMounted(() => {
   display: inline-block;
   font-size: 12px;
   font-weight: 500;
-  color: #3d9b8f;
-  background: #e8f5f2;
+  color: #5a9e8f;
+  background: #e8f8f3;
   padding: 3px 10px;
   border-radius: 10px;
 }
@@ -311,12 +311,12 @@ onMounted(() => {
 .article-read-link {
   font-size: 13px;
   font-weight: 500;
-  color: #3d9b8f;
+  color: #6FB8AB;
   transition: color 0.2s;
 }
 
 .article-card:hover .article-read-link {
-  color: #5cadff;
+  color: #6FB8AB;
 }
 
 /* ===== 空状态 ===== */
@@ -344,7 +344,7 @@ onMounted(() => {
 }
 
 .pagination-area :deep(.el-pager li.is-active) {
-  background: linear-gradient(135deg, #3d9b8f 0%, #5cadff 100%) !important;
+  background: linear-gradient(135deg, #8FD8C8 0%, #A8D4E8 100%) !important;
 }
 
 .pagination-area :deep(.el-pager li) {
@@ -392,7 +392,7 @@ onMounted(() => {
 
 .dark-mode :deep(.nav-item:hover),
 .dark-mode :deep(.nav-item.active) {
-  color: #5cadff;
+  color: #A8D4E8;
 }
 
 .dark-mode :deep(.logout-btn) {
@@ -423,9 +423,9 @@ onMounted(() => {
 
 .dark-mode .dark-toggle-btn:hover {
   background: rgba(255, 255, 255, 0.1);
-  border-color: #5cadff;
-  color: #5cadff;
-  box-shadow: 0 4px 18px rgba(92, 173, 255, 0.2);
+  border-color: #8FD8C8;
+  color: #8FD8C8;
+  box-shadow: 0 4px 18px rgba(143, 216, 200, 0.2);
 }
 
 /* ===== 黑夜 - 文章卡片 ===== */
@@ -443,8 +443,8 @@ onMounted(() => {
 }
 
 .dark-mode .article-tag {
-  color: #5cadff;
-  background: rgba(92, 173, 255, 0.12);
+  color: #5a9e8f;
+  background: rgba(143, 216, 200, 0.15);
 }
 
 .dark-mode .article-title {
@@ -464,11 +464,11 @@ onMounted(() => {
 }
 
 .dark-mode .article-read-link {
-  color: #5cadff;
+  color: #A8D4E8;
 }
 
 .dark-mode .article-card:hover .article-read-link {
-  color: #7cc0ff;
+  color: #8FD8C8;
 }
 
 .dark-mode .article-reads {
@@ -487,11 +487,11 @@ onMounted(() => {
 }
 
 .dark-mode .pagination-area :deep(.el-pager li:hover) {
-  color: #5cadff;
+  color: #A8D4E8;
 }
 
 .dark-mode .pagination-area :deep(.el-pager li.is-active) {
-  background: linear-gradient(135deg, #3d9b8f 0%, #5cadff 100%) !important;
+  background: linear-gradient(135deg, #8FD8C8 0%, #A8D4E8 100%) !important;
   color: #fff;
 }
 
@@ -503,7 +503,7 @@ onMounted(() => {
 
 .dark-mode .pagination-area :deep(.btn-prev:hover),
 .dark-mode .pagination-area :deep(.btn-next:hover) {
-  color: #5cadff;
+  color: #A8D4E8;
 }
 
 /* ===== 黑夜 - loading ===== */

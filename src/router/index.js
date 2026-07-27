@@ -35,6 +35,7 @@ const router = createRouter({
       component: () => import('@/views/user/Diary.vue'),
       meta: { title: '情绪日记', requiresAuth: true, requiresUser: true, userPortal: true },
     },
+
     {
       path: '/login',
       name: 'login',

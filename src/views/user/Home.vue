@@ -37,6 +37,13 @@ function goDiary() {
     <UserNavbar />
 
     <section class="hero">
+      <!-- 装饰性背景元素 -->
+      <div class="hero-bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+      </div>
+
       <div class="hero-center" :class="{ 'is-visible': pageReady }">
         <div class="hero-logo rise-item" style="--i: 0">
           <div class="hero-circle">
@@ -72,7 +79,7 @@ function goDiary() {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--mh-green);
+  background: linear-gradient(160deg, #8FD8C8 0%, #A8D4E8 55%, #D8C8E8 100%);
 }
 
 .hero {
@@ -82,6 +89,46 @@ function goDiary() {
   justify-content: center;
   padding: 24px 24px 64px;
   min-height: calc(100vh - 64px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 装饰形状 */
+.hero-bg-shapes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+}
+
+.shape-1 {
+  width: 320px;
+  height: 320px;
+  background: #fff;
+  top: -60px;
+  right: -80px;
+}
+
+.shape-2 {
+  width: 200px;
+  height: 200px;
+  background: #fff;
+  bottom: 10%;
+  left: -40px;
+}
+
+.shape-3 {
+  width: 140px;
+  height: 140px;
+  background: #fff;
+  top: 40%;
+  right: 15%;
 }
 
 .hero-center {
@@ -92,6 +139,8 @@ function goDiary() {
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
 .hero-logo {
@@ -103,17 +152,18 @@ function goDiary() {
   aspect-ratio: 1;
   margin: 0 auto;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.22);
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 8px 40px rgba(143, 216, 200, 0.25);
 }
 
 .hero-title {
   margin: 0 0 20px;
   font-size: clamp(28px, 5vw, 44px);
   line-height: 1.3;
-  color: #fff;
+  color: #1a3a2a;
   font-weight: 700;
 }
 
@@ -121,7 +171,7 @@ function goDiary() {
   margin: 0 auto 32px;
   font-size: 15px;
   line-height: 1.85;
-  color: rgba(255, 255, 255, 0.92);
+  color: #3d5a4e;
   max-width: 560px;
 }
 
@@ -135,24 +185,27 @@ function goDiary() {
 .btn-white {
   background: #fff !important;
   border-color: #fff !important;
-  color: #2c3e50 !important;
+  color: #4a7c6f !important;
   font-weight: 600;
   padding: 12px 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 .btn-white:hover {
-  background: #f5f7fa !important;
+  background: #f5faf8 !important;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
 }
 
 .btn-outline {
   background: transparent !important;
-  border: 2px solid rgba(255, 255, 255, 0.9) !important;
-  color: #fff !important;
+  border: 2px solid rgba(74, 124, 111, 0.45) !important;
+  color: #4a7c6f !important;
   padding: 12px 24px;
 }
 
 .btn-outline:hover {
-  background: rgba(255, 255, 255, 0.12) !important;
+  background: rgba(143, 216, 200, 0.2) !important;
+  border-color: #4a7c6f !important;
 }
 
 /* 自下而上入场动画 */

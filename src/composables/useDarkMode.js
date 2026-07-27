@@ -81,15 +81,15 @@ export function useDarkMode(canvasRef, options = {}) {
     const angle = fromLeft
       ? Math.random() * 0.4 + 0.3
       : Math.random() * 0.4 - 0.7
-    const speed = Math.random() * 3 + 4
+    const speed = Math.random() * 1.2 + 0.8
     return {
       x, y,
       vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed + 1,
+      vy: Math.sin(angle) * speed + 0.35,
       life: 1,
-      decay: Math.random() * 0.012 + 0.008,
+      decay: Math.random() * 0.005 + 0.003,
       trail: [],
-      maxTrail: Math.floor(Math.random() * 35 + 25),
+      maxTrail: Math.floor(Math.random() * 25 + 20),
       headRadius: Math.random() * 1.5 + 1,
     }
   }
@@ -102,13 +102,13 @@ export function useDarkMode(canvasRef, options = {}) {
     const particles = []
     for (let i = 0; i < count; i++) {
       const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.4
-      const speed = Math.random() * 3.5 + 1
+      const speed = Math.random() * 2 + 0.6
       particles.push({
         x, y,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
         life: 1,
-        decay: Math.random() * 0.018 + 0.008,
+        decay: Math.random() * 0.012 + 0.005,
         hue: hue + (Math.random() - 0.5) * 40,
         size: Math.random() * 1.8 + 0.8,
       })
@@ -229,7 +229,7 @@ export function useDarkMode(canvasRef, options = {}) {
 
     // 流星
     meteorSpawnCounter++
-    if (meteorSpawnCounter > Math.floor(Math.random() * 60 + 30)) {
+    if (meteorSpawnCounter > Math.floor(Math.random() * 120 + 90)) {
       meteorSpawnCounter = 0
       meteors.push(createMeteor(w, h))
     }
@@ -244,7 +244,7 @@ export function useDarkMode(canvasRef, options = {}) {
 
     // 烟花
     fireworkSpawnCounter++
-    if (fireworkSpawnCounter > Math.floor(Math.random() * 220 + 120)) {
+    if (fireworkSpawnCounter > Math.floor(Math.random() * 320 + 280)) {
       fireworkSpawnCounter = 0
       fireworks.push(...createFireworkBurst(w, h))
     }

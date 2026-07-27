@@ -2,10 +2,9 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
-import { ArrowLeft } from '@element-plus/icons-vue'
 import { useUserStore } from '@/stores/user'
 import { register as registerApi } from '@/api/frontend'
-import RobotIcon from '@/components/RobotIcon.vue'
+import AuthLayout from './AuthLayout.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -96,19 +95,8 @@ async function onSubmit() {
 </script>
 
 <template>
-  <div class="auth-page register-page">
-    <RouterLink to="/" class="back-home">
-      <el-icon><ArrowLeft /></el-icon>
-      返回首页
-    </RouterLink>
-
-    <el-card class="auth-card" shadow="always">
-      <div class="auth-header">
-        <RobotIcon :size="48" />
-        <h1>注册</h1>
-        <p>创建一个温和、安全的账号，开始记录与倾诉</p>
-      </div>
-
+  <AuthLayout title="注册" subtitle="创建一个温和、安全的账号，开始记录与倾诉" scrollable>
+    <template #default>
       <el-form ref="formRef" :model="form" :rules="rules" label-position="top" size="large">
         <el-form-item label="用户名" prop="username" required>
           <el-input v-model="form.username" placeholder="3-20 位字母或数字" />
@@ -142,69 +130,25 @@ async function onSubmit() {
         <el-form-item label="用户类型" prop="userType" class="hidden-field">
           <el-input-number v-model="form.userType" :min="1" :max="99" />
         </el-form-item>
-        <el-button type="primary" class="submit-btn" :loading="loading" @click="onSubmit">
-          注册
-        </el-button>
       </el-form>
+    </template>
+
+    <template #footer>
+      <el-button type="primary" class="submit-btn" :loading="loading" @click="onSubmit">
+        注册
+      </el-button>
 
       <p class="auth-footer">
         已有账号？
         <RouterLink to="/login" class="link-primary">去登录</RouterLink>
       </p>
-    </el-card>
-  </div>
+    </template>
+  </AuthLayout>
 </template>
 
 <style scoped>
-.auth-page {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  position: relative;
-}
-
-.register-page {
-  background: var(--mh-register-bg);
-}
-
-.back-home {
-  position: absolute;
-  top: 24px;
-  left: 24px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: #606266;
-  font-size: 14px;
-}
-
-.auth-card {
-  width: 100%;
-  max-width: 440px;
-  border-radius: 16px;
-}
-
-.auth-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.auth-header h1 {
-  margin: 16px 0 8px;
-  font-size: 28px;
-}
-
-.auth-header p {
-  margin: 0;
-  color: #909399;
-  font-size: 14px;
-}
-
 .submit-btn {
   width: 100%;
-  margin-top: 8px;
   height: 44px;
 }
 
@@ -212,7 +156,7 @@ async function onSubmit() {
   text-align: center;
   margin: 20px 0 0;
   font-size: 14px;
-  color: #606266;
+  color: #5b5870;
 }
 
 .hidden-field {

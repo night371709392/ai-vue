@@ -107,7 +107,7 @@ function logout() {
   width: 36px;
   height: 36px;
   border-radius: 8px;
-  background: linear-gradient(145deg, #5cadff 0%, #409eff 100%);
+  background: linear-gradient(145deg, #8FD8C8 0%, #6FB8AB 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -139,7 +139,7 @@ function logout() {
 
 .nav-item:hover,
 .nav-item.active {
-  color: var(--mh-teal);
+  color: var(--mh-teal); /* #6FB8AB */
   font-weight: 500;
 }
 
